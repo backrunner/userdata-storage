@@ -15,10 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export default {
   input: `src/main.ts`,
-  output: [
-    { file: pkg.main, name: pkg.name, format: 'umd', sourcemap: true },
-    { file: pkg.module, format: 'es', sourcemap: true },
-  ],
+  output: { file: pkg.main, name: pkg.name, format: 'umd', sourcemap: true },
   external: [],
   watch: {
     include: 'src/**',
