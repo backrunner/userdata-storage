@@ -6,8 +6,11 @@ import { lock, lockSync, unlock } from './lock';
 import { decryptContent, encryptContent } from './crypto';
 import { UserDataStorageOptions } from './types';
 
-export class UserDataStorage {
-  public state: Record<string, unknown> = {};
+export type UserDataStorageState<K> = K extends Record<string, any> ? K : Record<string, unknown>;
+
+export class UserDataStorage<K> {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  public state = {} as UserDataStorageState<K>;
 
   private storageDir: string;
   private storageFilePath: string;
@@ -31,11 +34,11 @@ export class UserDataStorage {
     }
   }
 
-  public async get<T = unknown>(key: string) {
+  public async get(key: string) {
     await lock(key);
     const state = this.state[key];
     unlock(key);
-    return state as T;
+    return state;
   }
 
   public async set(key: string, value: unknown) {
@@ -52,11 +55,8 @@ export class UserDataStorage {
     unlock(key);
   }
 
-  public getSync<T = unknown>(key: string) {
-    lockSync(key);
-    const state = this.state[key];
-    unlock(key);
-    return state as T;
+  public getSync(key: string) {
+    return this.state[key];
   }
 
   public setSync(key: string, value: unknown) {
@@ -71,6 +71,10 @@ export class UserDataStorage {
     delete this.state[key];
     this.persist();
     unlock(key);
+  }
+
+  public getState() {
+    return this.state;
   }
 
   /**
