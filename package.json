@@ -1,6 +1,6 @@
 {
   "name": "userdata-storage",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple JSON storage based on system user data folder",
   "main": "dist/userdata-storage.umd.js",
   "module": "dist/userdata-storage.esm.js",
@@ -12,6 +12,11 @@
     "watch": "cross-env NODE_ENV=dev rollup -c rollup.config.ts -w",
     "build": "rimraf ./dist && tsc --module commonjs && cross-env NODE_ENV=production rollup -c rollup.config.ts && rimraf ./dist/lib"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backrunner/userdata-storage.git"
+  },
+  "homepage": "https://github.com/backrunner/userdata-storage",
   "author": "BackRunner",
   "license": "MIT",
   "devDependencies": {

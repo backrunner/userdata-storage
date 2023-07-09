@@ -17,11 +17,21 @@ Step 2: Import and use this library
 ```ts
 import UserDataStorage from 'userdata-storage';
 
-const storage = new UserDataStorage('<appName>', '<storageName>');
+const storage = new UserDataStorage({
+  appName: '<appName>',
+  storageName: '[storageName]', // optional
+  safeKey: '[safeKey]', // better for security, can avoid others to read the data.
+});
 
 await storage.set(key, payload);
 await storage.get(key);
 await storage.remove(key);
+
+// or using the synchronous methods (⚠ The methods include locks, be aware of dead lock)
+
+storage.setSync(key, payload);
+storage.getSync(key);
+storage.removeSync(key);
 ```
 
 ## License
