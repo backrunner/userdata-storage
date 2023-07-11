@@ -17,7 +17,12 @@ export class UserDataStorage<K extends Record<string, unknown>> {
   private safeKey?: string;
 
   public constructor(options: UserDataStorageOptions) {
-    this.storageDir = path.resolve(userDataPath, options.appName);
+    if (options.storageRoot) {
+      if (!fs.existsSync(options.storageRoot)) {
+        throw new Error('Storage root does not exist.');
+      }
+    }
+    this.storageDir = path.resolve(options.storageRoot || userDataPath, options.appName);
     this.storageFilePath = path.resolve(
       this.storageDir,
       `${options.storageName || 'default'}.${options.extName || 'json'}`,
